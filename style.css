@@ -59,6 +59,14 @@ h1.text--black {
 	padding: 0;
 }
 
+li {
+	margin-left: 20px;
+
+	font-family: Helvetica, Arial, sans-serif;
+	list-style: disc;
+	line-height: 120%;
+}
+
 .text {
 	margin: 16px 0;
 

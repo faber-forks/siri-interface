@@ -31,9 +31,14 @@
         <div class="col col--2">
             <h1 class="text--black">Web based Siri interface</h1>
 
-            <p class="text text--black">This is a proof of concept for a web based Siri interface. This poc relies on some experimental browser api's (web-speech-api) which is currently only supported by Chrome. Make sure you allow the browser to access your microphone.</p>
+            <p class="text text--black">This is a proof of concept for a web based Siri interface. This poc relies on some experimental browser api's (web-speech-api) which is currently only supported by Chrome. Make sure you allow the browser to access your microphone. The speech-api stops listening after 60 seconds, this is a build in limitation.</p>
             <p class="text text--black">Try saying some thing to Siri, it's already listening! It may take some time for Siri to recognise or respond to your question, everything you say is send to google servers to be analysed.</p>
-            <p class="text text--black">ps: make sure to tell Siri your name.</p>
+            <p class="text text--black">Some of the commands:</p>
+            <ul>
+                <li>My name is {{your name}}</li>
+                <li>Are you on twitter?</li>
+                <li>Where are you from</li>
+            </ul>
         </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
