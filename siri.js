@@ -1,3 +1,6 @@
+// The code is still a bit messy, 
+//  I'll clean this once I'm completely done with the poc :)
+
 // Handle browser prefixes
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -11,7 +14,7 @@ var fills = [
 ];
 
 // Declare function vars
-var init, drawWaves, getMicrophoneInput, processAudio;
+var init, drawWaves, getMicrophoneInput, processAudio, processSpeech;
 
 // Declare canvas related vars
 var canvas, canvasContext;
@@ -19,7 +22,15 @@ var canvas, canvasContext;
 // Declare audio related vars
 var audioContext, audioProcessor;
 
+// Declate speech related vars
+var recognition, finalTranscript, interimTranscript, response;
+
 // Draw the waves
+//
+// I have no idea what the waves represent in the real Siri,
+//  and I can't seem to find an explanation. 
+//  These waves are created "pseudo randomly" and enlarged
+//  based on the volume of your speach.
 drawWaves = function() {
     var calculateX, calculateY, draw, generateRandomData;
 
@@ -122,12 +133,78 @@ processAudio = function(stream) {
     audioProcessor.onaudioprocess = processVolume;
 };
 
+// Process the user's voice
+processSpeech = function() {
+    if (!('webkitSpeechRecognition' in window)) {
+        console.error('Oops, it looks like your browser doesn\t support the web-speech-api :(');
+    } else {
+        var speechStart, speechResult, speechAudioStart, processInput;
+
+        processInput = function(sentence) {
+            if (sentence.indexOf('my name is') > 0) {
+                response = 'Hi ' + _.capitalize(sentence.substr(sentence.indexOf('is'), sentence.length).split(' ')[1]) + ', nice to meet you!';
+            } else {
+                response = 'I\'m not sure what you mean with this';
+            }
+
+            document.querySelector('.text--siri').innerHTML = response;
+            document.querySelector('.text--siri').classList.remove('hidden');
+            finalTranscript = ''
+        };
+
+        speechStart = function() {
+            finalTranscript = '';
+            // recognition.lang = select_dialect.value;
+        };
+
+        speechResult = function(e) {
+            interimTranscript = '';
+
+            var i = e.resultIndex;
+            for (; i < e.results.length; ++i) {
+                if (e.results[i].isFinal) {
+                    finalTranscript += e.results[i][0].transcript;
+                } else {
+                    interimTranscript += e.results[i][0].transcript;
+                }
+            }
+
+            document.querySelector('.text--user').innerHTML = '"' + _.trim(_.capitalize(interimTranscript)) + '"';
+            document.querySelector('.text--user').classList.remove('hidden');
+
+            if (finalTranscript.length > 0) {
+                document.querySelector('.text--user').innerHTML = '"' + _.trim(_.capitalize(finalTranscript)) + '"';
+                
+                processInput(finalTranscript );
+            }
+        };
+
+        speechAudioStart = function() {
+            document.querySelector('h1').classList.add('out');
+
+            window.setTimeout(function() {
+                document.querySelector('h1').classList.add('hidden');                
+            }, 300);
+        };
+
+        recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.onstart = speechStart;
+        recognition.onresult = speechResult;
+        recognition.onspeechstart = speechAudioStart;
+
+        recognition.start();
+    }
+};
+
 // Initialise
 init = !function() {
     // Basic setup of the canvas
-    canvas = document.querySelector('.wave');
+    canvas = document.querySelector('.waves');
     canvasContext = canvas.getContext('2d');
     canvasContext.globalCompositeOperation = 'overlay';
 
     getMicrophoneInput();
+    processSpeech();
 }();

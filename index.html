@@ -1,3 +1,6 @@
+<!-- The iPhone is made by the guys of Marvell app -->
+<!-- https://github.com/marvelapp/devices.css -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,20 +8,35 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="marvel-device iphone6 black">
-        <div class="top-bar"></div>
-        <div class="sleep"></div>
-        <div class="volume"></div>
-        <div class="camera"></div>
-        <div class="sensor"></div>
-        <div class="speaker"></div>
-        <div class="screen">
-            <canvas class="wave" width="375px" height="100px"></canvas>
+    <div class="container">
+        <div class="col col--1">
+            <div class="marvel-device iphone6 black">
+                <div class="top-bar"></div>
+                <div class="sleep"></div>
+                <div class="volume"></div>
+                <div class="camera"></div>
+                <div class="sensor"></div>
+                <div class="speaker"></div>
+                <div class="screen">
+                    <h1>What can I help you with?</h1>
+                    <p class="text text--user hidden">My name is Sam</p>
+                    <p class="text text--siri hidden">Hi Sam, my name is Siri</p>
+                    <canvas class="waves" width="375px" height="100px"></canvas>
+                </div>
+                <div class="home"></div>
+                <div class="bottom-bar"></div>
+            </div>
         </div>
-        <div class="home"></div>
-        <div class="bottom-bar"></div>
-    </div>
 
+        <div class="col col--2">
+            <h1 class="text--black">Web based Siri interface</h1>
+
+            <p class="text text--black">This is a proof of concept for a web based Siri interface. This poc relies on some experimental browser api's (web-speech-api) which is currently only supported by Chrome. Make sure you allow the browser to access your microphone.</p>
+            <p class="text text--black">Try saying some thing to Siri, it's already listening! It may take some time for Siri to recognise or respond to your question, everything you say is send to google servers to be analysed.</p>
+            <p class="text text--black">ps: make sure to tell Siri your name.</p>
+        </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
     <script src="./siri.js"></script>
 </body>
 </html>
