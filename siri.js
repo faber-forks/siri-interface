@@ -23,7 +23,7 @@ var canvas, canvasContext;
 var audioContext, audioProcessor;
 
 // Declate speech related vars
-var recognition, finalTranscript, interimTranscript, response;
+var recognition, finalTranscript, interimTranscript, response, synth, utterResponse;
 
 // Draw the waves
 //
@@ -154,6 +154,11 @@ processSpeech = function() {
 
             document.querySelector('.text--siri').innerHTML = response;
             document.querySelector('.text--siri').classList.remove('hidden');
+
+            utterResponse = new SpeechSynthesisUtterance(response);
+            utterResponse.voice = synth.getVoices().filter(function(voice) { return voice.name == 'Google US English'; })[0];
+            synth.speak(utterResponse);
+
             finalTranscript = ''
         };
 
@@ -200,6 +205,8 @@ processSpeech = function() {
         recognition.onspeechstart = speechAudioStart;
 
         recognition.start();
+
+        synth = window.speechSynthesis;
     }
 };
 
