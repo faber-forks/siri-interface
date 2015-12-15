@@ -1,4 +1,4 @@
-// The code is still a bit messy, 
+// The code is still messy, 
 //  I'll clean this once I'm completely done with the poc :)
 
 // Handle browser prefixes
@@ -142,11 +142,11 @@ processSpeech = function() {
 
         processInput = function(sentence) {
             sentence = sentence.toLowerCase();
-            if (sentence.indexOf('my name is') > 0) {
+            if (sentence.indexOf('my name is') >= 0) {
                 response = 'Hi ' + _.capitalize(sentence.substr(sentence.indexOf('is'), sentence.length).split(' ')[1]) + ', nice to meet you!';
-            } else if (sentence.indexOf('are you on twitter') > 0) {
+            } else if (sentence.indexOf('are you on twitter') >= 0) {
                 response = 'Of course I am, you can find me with the handle @sambego.';
-            } else if (sentence.indexOf('Where are you from') > 0) {
+            } else if (sentence.indexOf('Where are you from') >= 0) {
                 response = 'I\'m from the small country of Belgium.';
             } else {
                 response = 'I\'m not sure what you mean with this.';
